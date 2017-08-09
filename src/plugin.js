@@ -51,6 +51,16 @@ class BlessCSSWebpackPlugin {
         chunks.forEach(chunk => {
           chunk.files
             .filter(filename => filename.match(CSS_REGEXP))
+            .filter(filename => {
+              if (this.options.files) {
+                return this.options.files.some(file => {
+                  let filenameRegExp = new RegExp(`.*\/${file}.*\.css$`);
+                  return filename.match(filenameRegExp);
+                });
+              } else {
+                return true;
+              }
+            })
             .forEach(cssFileName => {
               const asset = compilation.assets[cssFileName];
               let input = {};
