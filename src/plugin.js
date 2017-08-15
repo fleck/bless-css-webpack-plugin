@@ -6,6 +6,7 @@ const webpackSources = require('webpack-sources');
 const RawSource = webpackSources.RawSource;
 const SourceMapSource = webpackSources.SourceMapSource;
 const CSS_REGEXP = /\.css$/;
+const CleanCSS = require('clean-css');
 
 function createBlessedFileName(filenameWithoutExtension, index) {
   return index === 0 ? `${filenameWithoutExtension}.css` : `${filenameWithoutExtension}-blessed${index}.css`;
@@ -32,6 +33,13 @@ function addImports(parsedData, filenameWithoutExtension) {
 
   parsedData.data[sourceToInjectIndex] = `${addImports}\n${parsedData.data[sourceToInjectIndex]}`;
 
+  return parsedData;
+}
+
+function minimize(parsedData) {
+  parsedData.data = parsedData.data.map((cssString) => {
+    return new CleanCSS({inline: false}).minify(cssString).styles;
+  });
   return parsedData;
 }
 
@@ -88,7 +96,9 @@ class BlessCSSWebpackPlugin {
                   // Inject imports into primary created file
                   parsedData = addImports(parsedData, filenameWithoutExtension);
                 }
-
+                if (this.options.minimize) {
+                  parsedData = minimize(parsedData);
+                }
                 parsedData.data.forEach((fileContents, index) => { // eslint-disable-line max-nested-callbacks
                   const filename = createBlessedFileName(filenameWithoutExtension, index);
                   const outputSourceMap = parsedData.maps[index];

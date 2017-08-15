@@ -38,6 +38,7 @@ const BlessCSSWebpackPlugin = require('bless-css-webpack-plugin');
 ### options
 
 * `files` - An array of files that you want blessed: `['ie', 'other-style-sheet']`. Default `false`, all files will be blessed if they're large enough.
+* `minimize` - set to `true` to enable minification with CleanCSS. NOTE: if sourceMaps are turned on this will disable minimize! Default `false`.
 * `sourceMap` - set to `true` to enable sourcemaps. Default `false`.
 * `addImports` - set to `true` to inject @import rules for generated files. Default `false`.
 
