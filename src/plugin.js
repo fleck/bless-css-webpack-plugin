@@ -109,9 +109,9 @@ class BlessCSSWebpackPlugin {
                     compilation.assets[filename] = new RawSource(fileContents);
                   }
 
-                  // if (index > 0 && !this.options.addImports) {
+                  if (index > 0) {
                     chunk.files.push(filename);
-                  // }
+                  }
                 });
               }
             });
