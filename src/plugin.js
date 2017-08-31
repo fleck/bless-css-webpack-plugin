@@ -119,10 +119,6 @@ class BlessCSSWebpackPlugin {
         callback();
       });
 
-      compilation.plugin('additional-assets', function(callback) {
-            compilation.assets['webpack-version.css'] = 'stuff...';
-            callback();
-      });
     });
   }
 
