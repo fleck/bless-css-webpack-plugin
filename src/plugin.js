@@ -109,7 +109,7 @@ class BlessCSSWebpackPlugin {
                     compilation.assets[filename] = new RawSource(fileContents);
                   }
 
-                  if (index > 0) {
+                  if (index > 0 && !this.options.addImports) {
                     chunk.files.push(filename);
                   }
                 });
@@ -117,6 +117,11 @@ class BlessCSSWebpackPlugin {
             });
         });
         callback();
+      });
+
+      compilation.plugin('additional-assets', function(callback) {
+            compilation.assets['webpack-version.css'] = toAsset('resp');
+            callback();
       });
     });
   }
