@@ -118,7 +118,6 @@ class BlessCSSWebpackPlugin {
         });
         callback();
       });
-
     });
   }
 
